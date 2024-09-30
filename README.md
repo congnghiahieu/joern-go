@@ -1,5 +1,4 @@
-Joern - The Bug Hunter's Workbench
-===
+# Joern - The Bug Hunter's Workbench
 
 [![release](https://github.com/joernio/joern/actions/workflows/release.yml/badge.svg)](https://github.com/joernio/joern/actions/workflows/release.yml)
 [![Joern SBT](https://index.scala-lang.org/joernio/joern/latest.svg)](https://index.scala-lang.org/joernio/joern)
@@ -37,7 +36,7 @@ Specification: https://cpg.joern.io
 
 ## Quick Installation
 
-```
+```bash
 wget https://github.com/joernio/joern/releases/latest/download/joern-install.sh
 chmod +x ./joern-install.sh
 sudo ./joern-install.sh
@@ -56,28 +55,31 @@ joern>
 ```
 
 If the installation script fails for any reason, try
-```
+
+```bash
 ./joern-install --interactive
 ```
 
 ## Docker based execution
 
-```
+```bash
 docker run --rm -it -v /tmp:/tmp -v $(pwd):/app:rw -w /app -t ghcr.io/joernio/joern joern
 ```
 
 To run joern in server mode:
 
-```
+```bash
 docker run --rm -it -v /tmp:/tmp -v $(pwd):/app:rw -w /app -t ghcr.io/joernio/joern joern --server
 ```
 
 Almalinux 9 requires the CPU to support SSE4.2. For kvm64 VM use the Almalinux 8 version instead.
-```
+
+```bash
 docker run --rm -it -v /tmp:/tmp -v $(pwd):/app:rw -w /app -t ghcr.io/joernio/joern-alma8 joern
 ```
 
 ## Releases
+
 A new release is [created automatically](.github/workflows/release.yml) once per day. Contributers can also manually run the [release workflow](https://github.com/joernio/joern/actions/workflows/release.yml) if they need the release sooner.
 
 ## Developers
@@ -86,28 +88,30 @@ A new release is [created automatically](.github/workflows/release.yml) once per
 
 Thank you for taking time to contribute to Joern! Here are a few guidelines to ensure your pull request will get merged as soon as possible:
 
-* Try to make use of the templates as far as possible, however they may not suit all needs. The minimum we would like to see is:
-    - A title that briefly describes the change and purpose of the PR, preferably with the affected module in square brackets, e.g. `[javasrc2cpg] Addition Operator Fix`.
-    - A short description of the changes in the body of the PR. This could be in bullet points or paragraphs.
-    - A link or reference to the related issue, if any exists.
-* Do not:
-    - Immediately CC/@/email spam other contributors, the team will review the PR and assign the most appropriate contributor to review the PR. Joern is maintained by industry partners and researchers alike, for the most part with their own goals and priorities, and additional help is largely volunteer work. If your PR is going stale, then reach out to us in follow-up comments with @'s asking for an explanation of priority or planning of when it may be addressed (if ever, depending on quality).
-    - Leave the description body empty, this makes reviewing the purpose of the PR difficult.
-* Remember to:
-    - Remember to format your code, i.e. run `sbt scalafmt Test/scalafmt`
-    - Add a unit test to verify your change.
+- Try to make use of the templates as far as possible, however they may not suit all needs. The minimum we would like to see is:
+  - A title that briefly describes the change and purpose of the PR, preferably with the affected module in square brackets, e.g. `[javasrc2cpg] Addition Operator Fix`.
+  - A short description of the changes in the body of the PR. This could be in bullet points or paragraphs.
+  - A link or reference to the related issue, if any exists.
+- Do not:
+  - Immediately CC/@/email spam other contributors, the team will review the PR and assign the most appropriate contributor to review the PR. Joern is maintained by industry partners and researchers alike, for the most part with their own goals and priorities, and additional help is largely volunteer work. If your PR is going stale, then reach out to us in follow-up comments with @'s asking for an explanation of priority or planning of when it may be addressed (if ever, depending on quality).
+  - Leave the description body empty, this makes reviewing the purpose of the PR difficult.
+- Remember to:
+  - Remember to format your code, i.e. run `sbt scalafmt Test/scalafmt`
+  - Add a unit test to verify your change.
 
 ### IDE setup
 
 #### Intellij IDEA
-* [Download Intellij Community](https://www.jetbrains.com/idea/download)
-* Install and run it
-* Install the [Scala Plugin](https://plugins.jetbrains.com/plugin/1347-scala) - just search and install from within Intellij.
-* Important: open `sbt` in your local joern repository, run `compile` and keep it open - this will allow us to use the BSP build in the next step
-* Back to Intellij: open project: select your local joern clone: select to open as `BSP project` (i.e. _not_ `sbt project`!)
-* Await the import and indexing to complete, then you can start, e.g. `Build -> build project` or run a test
+
+- [Download Intellij Community](https://www.jetbrains.com/idea/download)
+- Install and run it
+- Install the [Scala Plugin](https://plugins.jetbrains.com/plugin/1347-scala) - just search and install from within Intellij.
+- Important: open `sbt` in your local joern repository, run `compile` and keep it open - this will allow us to use the BSP build in the next step
+- Back to Intellij: open project: select your local joern clone: select to open as `BSP project` (i.e. _not_ `sbt project`!)
+- Await the import and indexing to complete, then you can start, e.g. `Build -> build project` or run a test
 
 #### VSCode
+
 - Install VSCode and Docker
 - Install the plugin `ms-vscode-remote.remote-containers`
 - Open Joern project folder in [VSCode](https://docs.microsoft.com/en-us/azure-sphere/app-development/container-build-vscode#build-and-debug-the-project)
@@ -117,27 +121,37 @@ Thank you for taking time to contribute to Joern! Here are a few guidelines to e
 - After `import build` succeeds, you are ready to start writing code for Joern
 
 ## QueryDB (queries plugin)
+
 Quick way to develop and test QueryDB:
-```
+
+```bash
 sbt stage
 ./querydb-install.sh
 ./joern-scan --list-query-names
 ```
+
 The last command prints all available queries - add your own in querydb, run the above commands again to see that your query got deployed.
 More details in the [separate querydb readme](querydb/README.md)
 
-## Benchmarks
+# Thứ tự chạy
 
-Various static analysis benchmarks that measure Joern are contained under the `benchmarks`. The benchmarks are
-implemented in ScalaTest and can be run using the `joern-benchmarks` script. The benchmark results can be found on
-the `benchmarks` subproject's `README`. The currently implemented benchmarks along with the language frontends tested
-are:
-
-* [Securibench Micro](http://too4words.github.io/securibench-micro/) [`javasrc2cpg`, `jimple2cpg`]
-* [IFSpec](https://link.springer.com/chapter/10.1007/978-3-030-03638-6_27) ([paper](https://pp.ipd.kit.edu/uploads/publikationen/ifspec18nordsec.pdf)) [`javasrc2cpg`, `jimple2cpg`]
-* [JInfoFlow](https://github.com/plast-lab/JInfoFlow-bench) ([paper](https://yanniss.github.io/ptaint-oopsla17-prelim.pdf)) [`javasrc2cpg`, `jimple2cpg`]
-
-For more instructions on how to run benchmarks individually head over to the `benchmarks` subproject. If you would
-like the benchmark results to be written to a file instead of printed to STDOUT, set the path to the environment
-variable `JOERN_BENCHMARK_RESULT_FILE`.
-
+- joern-cli/frontends/x2cpg/src/main/scala/io/joern/x2cpg/X2Cpg.scala `X2CpgConfig`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/Main.scala `Frontend`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/Main.scala `gocpg.run(config)`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/parser/GoCpg.scala `createCpg`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/ast/GoModule.scala `loadModule()`
+- joern-cli/frontends/x2cpg/src/main/scala/io/joern/x2cpg/passes/frontend/MetaDataPass.scala `MetaDataPass`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/passes/AstCreationPass.scala `AstCreationPass`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/passes/AstCreationPass.scala `generateParts`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/passes/AstCreationPass.scala `runOnPart`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/parser/JsonParser.scala `parse`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/parser/JsonParser.scala `mapParent` (recursive)
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/astcreation/AstCreator.scala `AstCreator`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/astcreation/AstCreator.scala `createAst`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/astcreation/AstCreator.scala `astForTranslationUnit`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/astcreation/AstCreator.scala `astForPackageNode`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/astcreation/AstCreator.scala `astForGoAstNode`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/passes/TypeResolverPass.scala `TypeResolverPass`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/passes/TypeResolverPass.scala `run`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/passes/ModuleResolverPass.scala `ModuleResolverPass`
+- joern-cli/frontends/gosrc2cpg/src/main/scala/io/joern/gosrc2cpg/passes/ModuleResolverPass.scala `run`

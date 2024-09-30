@@ -32,7 +32,7 @@ class AstCreationPass(cpg: Cpg, config: Config, workingDir: String, goModule: Go
 
   override def generateParts(): Array[Array[String]] = {
 
-    val binary          = "/home/hoangdao/Workspace/Scala/Joern/joern-cli/frontends/gosrc2cpg/bin/go-parser/goparser"
+    val binary          = "/home/hieucien/Workspace/ast/joern-go/joern-cli/frontends/gosrc2cpg/bin/go-parser/goparser"
     val command: String = s"$binary parse ${config.inputPath} --output $workingDir"
     val output          = ExternalCommand.run(command, ".")
     output.foreach(strs => strs.foreach(str => logger.warn("GoParser: {}", str)))
