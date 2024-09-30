@@ -8,7 +8,7 @@ import scala.util.Try
 
 class AstParser {
 
-  val command = "./goparser"
+  val command                  = "./goparser"
   protected val logger: Logger = LoggerFactory.getLogger(classOf[AstCreator])
 
   def runAstParserCLI(inputDirectory: String, outputDirectory: String): Unit = {

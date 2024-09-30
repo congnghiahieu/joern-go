@@ -19,7 +19,7 @@ class Scope[I, V, S] {
   def current(): Option[ScopeElement[I, V, S]] = {
     stack.headOption
   }
-  
+
   def pushNewScope(scopeNode: S): Unit = {
     stack = ScopeElement[I, V, S](scopeNode) :: stack
   }

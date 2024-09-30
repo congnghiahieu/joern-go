@@ -287,17 +287,17 @@ class CfgCreator(entryNode: Method, diffGraph: DiffGraphBuilder) {
     */
   protected def cfgForOrExpression(call: Call): Cfg = {
     try {
-      val leftCfg = cfgFor(call.argument(1))
+      val leftCfg  = cfgFor(call.argument(1))
       val rightCfg = cfgFor(call.argument(2))
 
-    val diffGraphs = edgesFromFringeTo(leftCfg, rightCfg.entryNode, FalseEdge) ++ leftCfg.edges ++ rightCfg.edges
-    Cfg
-      .from(leftCfg, rightCfg)
-      .copy(
-        entryNode = leftCfg.entryNode,
-        edges = diffGraphs,
-        fringe = leftCfg.fringe ++ rightCfg.fringe
-      ) ++ cfgForSingleNode(call)
+      val diffGraphs = edgesFromFringeTo(leftCfg, rightCfg.entryNode, FalseEdge) ++ leftCfg.edges ++ rightCfg.edges
+      Cfg
+        .from(leftCfg, rightCfg)
+        .copy(
+          entryNode = leftCfg.entryNode,
+          edges = diffGraphs,
+          fringe = leftCfg.fringe ++ rightCfg.fringe
+        ) ++ cfgForSingleNode(call)
     } catch {
       case e: NoSuchElementException =>
         println(s"Exception ${e.getMessage}")

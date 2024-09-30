@@ -11,16 +11,16 @@ import overflowdb.BatchedUpdate
 
 class ModuleResolverPass(cpg: Cpg, goModule: GoModule) extends CpgPass(cpg) {
 
-    override def run(builder: BatchedUpdate.DiffGraphBuilder): Unit = {
-        val moduleNamespace = NewNamespaceBlock()
-            .name(goModule.moduleName)
-            .filename("\\")
-            .fullName(goModule.moduleName)
-        builder.addNode(moduleNamespace)
-        cpg.namespaceBlock.foreach(namespaceBlock => {
-            if (!namespaceBlock.name.equals("<global>")) {
-                builder.addEdge(moduleNamespace, namespaceBlock, EdgeTypes.AST)
-            }
-        })
-    }
+  override def run(builder: BatchedUpdate.DiffGraphBuilder): Unit = {
+    val moduleNamespace = NewNamespaceBlock()
+      .name(goModule.moduleName)
+      .filename("\\")
+      .fullName(goModule.moduleName)
+    builder.addNode(moduleNamespace)
+    cpg.namespaceBlock.foreach(namespaceBlock => {
+      if (!namespaceBlock.name.equals("<global>")) {
+        builder.addEdge(moduleNamespace, namespaceBlock, EdgeTypes.AST)
+      }
+    })
+  }
 }

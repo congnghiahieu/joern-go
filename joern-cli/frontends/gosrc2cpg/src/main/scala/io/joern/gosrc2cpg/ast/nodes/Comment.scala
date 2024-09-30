@@ -3,7 +3,7 @@ package io.joern.gosrc2cpg.ast.nodes
 import scala.collection.mutable.ListBuffer
 
 class Comment extends Node {
-  var slash: Int = 0
+  var slash: Int   = 0
   var text: String = ""
 }
 

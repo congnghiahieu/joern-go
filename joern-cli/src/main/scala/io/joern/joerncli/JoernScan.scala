@@ -44,7 +44,7 @@ object JoernScan extends BridgeBase {
   val implementationVersion = getClass.getPackage.getImplementationVersion
 
   def main(args: Array[String]) = {
-    val testArgs = Seq("/home/hoangdao/Workspace/Go/Test/").toArray
+    val testArgs                 = Seq("/home/hoangdao/Workspace/Go/Test/").toArray
     val (scanArgs, frontendArgs) = CpgBasedTool.splitArgs(args)
     optionParser.parse(scanArgs, JoernScanConfig()).foreach { config =>
       run(config, frontendArgs)

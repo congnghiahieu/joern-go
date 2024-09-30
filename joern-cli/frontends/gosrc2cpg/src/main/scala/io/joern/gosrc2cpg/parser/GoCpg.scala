@@ -15,25 +15,26 @@ import scala.util.Try
 
 class GoCpg extends X2CpgFrontend[Config] {
 
-    private val report: Report = new Report()
+  private val report: Report = new Report()
 
-    override def createCpg(config: Config): Try[Cpg] = {
-        val inputFile = new File(config.inputPath)
-        if (!inputFile.isDirectory && !inputFile.isFile) {
-            throw new IllegalArgumentException(s"$inputFile is not a valid directory or file.")
-        }
-
-        X2Cpg.withNewEmptyCpg(config.outputPath, config) { (cpg, config) =>
-            val goModule = GoModule(config)
-            better.files.File.usingTemporaryDirectory("gosrccpg_tmp") { tempWorkingDir =>
-                new MetaDataPass(cpg, Languages.GOLANG, config.inputPath).createAndApply()
-                val astCreationPass = new AstCreationPass(cpg, config, tempWorkingDir.pathAsString, goModule, report)
-                astCreationPass.createAndApply()
-                val typeResolverPass = new TypeResolverPass(cpg, astCreationPass.getUsedPrimitiveType().toArray(Array.empty[String]))
-                typeResolverPass.createAndApply()
-                new ModuleResolverPass(cpg, goModule).createAndApply()
-            }
-        }
+  override def createCpg(config: Config): Try[Cpg] = {
+    val inputFile = new File(config.inputPath)
+    if (!inputFile.isDirectory && !inputFile.isFile) {
+      throw new IllegalArgumentException(s"$inputFile is not a valid directory or file.")
     }
+
+    X2Cpg.withNewEmptyCpg(config.outputPath, config) { (cpg, config) =>
+      val goModule = GoModule(config)
+      better.files.File.usingTemporaryDirectory("gosrccpg_tmp") { tempWorkingDir =>
+        new MetaDataPass(cpg, Languages.GOLANG, config.inputPath).createAndApply()
+        val astCreationPass = new AstCreationPass(cpg, config, tempWorkingDir.pathAsString, goModule, report)
+        astCreationPass.createAndApply()
+        val typeResolverPass =
+          new TypeResolverPass(cpg, astCreationPass.getUsedPrimitiveType().toArray(Array.empty[String]))
+        typeResolverPass.createAndApply()
+        new ModuleResolverPass(cpg, goModule).createAndApply()
+      }
+    }
+  }
 
 }
